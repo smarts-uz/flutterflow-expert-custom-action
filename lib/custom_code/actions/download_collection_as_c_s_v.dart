@@ -21,11 +21,13 @@ Future downloadCollectionAsCSV(List<CustomersRow>? docs) async {
   // String companyAddress = "Your Company Address";
   // String header = "$companyName,$companyAddress\n\n";
 
-  String fileContent = "id, name, job, email, salary";
+  String fileContent = "id, created_at, name, job, email, salary";
 
   docs.asMap().forEach((index, record) => fileContent = fileContent +
       "\n" +
       record.id.toString() +
+      "," +
+      record.createdAt.toString() +
       "," +
       record.name.toString() +
       "," +
