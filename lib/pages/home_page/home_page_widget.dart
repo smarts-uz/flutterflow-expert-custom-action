@@ -62,10 +62,43 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Icon(
-                    Icons.ios_share,
-                    color: FlutterFlowTheme.of(context).primaryBackground,
-                    size: 24.0,
+                  FutureBuilder<List<CustomersRow>>(
+                    future: CustomersTable().queryRows(
+                      queryFn: (q) => q,
+                    ),
+                    builder: (context, snapshot) {
+                      // Customize what your widget looks like when it's loading.
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: SizedBox(
+                            width: 50.0,
+                            height: 50.0,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                FlutterFlowTheme.of(context).primary,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                      List<CustomersRow> iconCustomersRowList = snapshot.data!;
+                      return InkWell(
+                        splashColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () async {
+                          await actions.importFromCsv(
+                            '',
+                          );
+                        },
+                        child: Icon(
+                          Icons.ios_share,
+                          color: FlutterFlowTheme.of(context).primaryBackground,
+                          size: 24.0,
+                        ),
+                      );
+                    },
                   ),
                   Padding(
                     padding:
